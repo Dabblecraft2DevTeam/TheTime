@@ -7,6 +7,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import backend.main.main;
+
 public class Config {
 	
 	protected Config() {
@@ -103,7 +105,8 @@ public class Config {
 		 * If not, creates the File and all parent Folders.
 		 */
 		if(!configFile.exists()){
-			configFile.mkdirs();
+			configFile.getParentFile().mkdirs();
+			main.instance.saveResource(configName, false);
 		}
 		
 		/*
@@ -117,8 +120,10 @@ public class Config {
 			try {
 				
 				config.load(configFile);
+				main.instance.getLogger().info("Succsessfully loaded " + configName + "!");
 				
 			} catch (IOException | InvalidConfigurationException e) {
+				main.instance.getLogger().warning("Error while loading " + configName + "!");
 				e.printStackTrace();
 			}
 			

@@ -1,0 +1,92 @@
+#       TheTime
+#  Author: Joshua Wirtz
+#  
+#  The default TimeSystem will be default, it is called when the command is executed with no parameters.
+#  
+Time-Systems:
+  default:
+    tick:
+      zero: 1
+    second:
+      zero: 1
+      ticksPerSecond: 20
+    minute:
+      zero: 1
+      secondsPerMinute: 5
+    hour:
+      zero: 1
+      minutesPerHour: 10
+    day:
+      zero: 1
+      hoursPerDay: 24
+      dayNames:
+        1:
+          name: 'Monday'
+        2:
+          name: 'Thuesday'
+        3:
+          name: 'Wednesday'
+        4:
+          name: 'Thursday'
+        5:
+          name: 'Friday'
+        6:
+          name: 'Saturday'
+        7:
+          name: 'Sunday'
+    week:
+      zero: 1
+      daysPerWeek: 7
+    month:
+      zero: 1
+      daysPerMonth:
+        1:
+          name: 'Januray'
+          days: 31
+        2:
+          name: 'Febuary'
+          days: 28
+        3:
+          name: 'March'
+          days: 31
+        4:
+          name: 'April'
+          days: 30
+        5:
+          name: 'May'
+          days: 31
+        6:
+          name: 'June'
+          days: 30
+        7:
+          name: 'July'
+          days: 31
+        8:
+          name: 'August'
+          days: 31
+        9:
+          name: 'September'
+          days: 30
+        10:
+          name: 'October'
+          days: 31
+        11:
+          name: 'November'
+          days: 30
+        12:
+          name: 'December'
+          days: 31
+    year:
+      zero: 1
+      monthsPerYear: 12
+    era:
+      zero: 1
+      eras:
+        1:
+          name: 'Begin'
+          startYear: 0
+          endYear: 99
+        2:
+          name: 'End'
+          startYear: 100
+          endYear: 199

@@ -1,5 +1,16 @@
 name: TheTime
-main: main.main
+main: backend.main.main
 version: 1.0
 author: Joshua Wirtz
 website: https://www.spigotmc.org/resources/25146/
+
+commands:
+ calendar:
+  usage: /calendar
+  description: TheTime calendar function.
+ date:
+  usage: /date
+  description: TheTime calendar function.
+ TheTime:
+  usage: /TheTime [reload]
+  description: TheTime config reload and information.
