@@ -27,15 +27,14 @@ public class CalendarConfig extends Config implements ConfigUtils {
 		super();
 		
 		config = super.loadConfig(instance.getDataFolder(), "CalendarConfig.yml");
-		reader();
 	}
 	
-	HashMap<InventoryProperties, Object> calendar = new HashMap<InventoryProperties, Object>();
-	
 	/*
-	 * Method to read the config values of the calendar configuration file.
+	 * Method to get the properties of the calendar out of the config.
 	 */
-	private void reader() {
+	public HashMap<InventoryProperties, Object> getCalendarProperties() {
+	
+		HashMap<InventoryProperties, Object> calendar = new HashMap<InventoryProperties, Object>();
 		
 		String title;
 		int size;
@@ -78,13 +77,8 @@ public class CalendarConfig extends Config implements ConfigUtils {
 		calendar.put(InventoryProperties.HOLDER, null);
 		calendar.put(InventoryProperties.HEADER, title);
 		calendar.put(InventoryProperties.SIZE, size);
-		calendar.put(InventoryProperties.ITEMS, items);		
-	}
-	
-	/*
-	 * Method the get the calendar properties.
-	 */
-	public HashMap<InventoryProperties, Object> getCalendarProperties(){
+		calendar.put(InventoryProperties.ITEMS, items);	
+		
 		return calendar;
 	}
 	
@@ -109,6 +103,10 @@ public class CalendarConfig extends Config implements ConfigUtils {
 		 * Returns the HashMap 'itemProperties'
 		 */
 		return item;
+	}
+	
+	public void reloadConfig() {
+		config = super.reloadConfig(config, main.instance.getDataFolder(), "CalendarConfig.yml");
 	}
 
 	/*

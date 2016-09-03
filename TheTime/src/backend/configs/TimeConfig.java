@@ -182,6 +182,13 @@ public class TimeConfig extends Config implements ConfigUtils {
 	}
 	
 	/*
+	 * Calls reloadConfig() in Config.
+	 */
+	public void reloadConfig() {
+		config = super.reloadConfig(config, main.instance.getDataFolder(), "TimeConfig.yml");
+	}
+	
+	/*
 	 * Gets the zero for a date parameter out of a given date parameter configuration section.
 	 * Returns a long value.
 	 */

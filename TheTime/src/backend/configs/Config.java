@@ -59,8 +59,6 @@ public class Config {
 	 */
 	protected FileConfiguration reloadConfig(FileConfiguration config, File configFile, String configName) {
 		
-		saveConfig(config, configFile);
-		
 		/*
 		 * Declares a new configuration to the existing FileConfiguartion 'config'.
 		 */

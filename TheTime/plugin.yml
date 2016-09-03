@@ -14,3 +14,14 @@ commands:
  TheTime:
   usage: /TheTime [reload]
   description: TheTime config reload and information.
+
+permissions:
+  TheTime.*:
+    description: Gives access to all TheTime commands.
+    children:
+      TheTime.calendar: true
+  TheTime.calendar:
+    description: Gives access to all TheTime calendar commands.
+    children:
+      TheTime.calendar.default: true
+      TheTime.calendar.TimeSystem: true

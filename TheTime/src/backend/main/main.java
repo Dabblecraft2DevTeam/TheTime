@@ -1,3 +1,11 @@
+/**
+ * 
+ * TheTime
+ * 
+ * @author Joshua Wirtz
+ * 
+ */
+
 package backend.main;
 
 import java.util.HashMap;
@@ -10,6 +18,7 @@ import backend.configs.TimeConfig;
 import backend.date.DateCalculator;
 import backend.date.DateUtils;
 import frontend.configs.CalendarConfig;
+import frontend.configs.CommandConfig;
 import frontend.inventory.Calendar;
 import frontend.inventory.Storage;
 import frontend.listener.command.CommandCaller;
@@ -20,11 +29,17 @@ public class main extends JavaPlugin {
 	public static main instance;
 	public static HashMap<Player, Storage> storages = new HashMap<Player, Storage>();
 
+	/*
+	 * Plugin Tag for Command output.
+	 */
+	public static String tag = "§r{§4§lTheTime§r} ";
+	
 	private static DateCalculator dateCalculator;
 	private static DateUtils dateUtils;
 	
 	private static TimeConfig timeConfig;
 	private static CalendarConfig calendarConfig;
+	private static CommandConfig commandConfig;
 	
 	/*
 	 * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
@@ -51,6 +66,7 @@ public class main extends JavaPlugin {
 		
 		timeConfig = new TimeConfig();
 		calendarConfig = new CalendarConfig();
+		commandConfig = new CommandConfig();
 	}
 	
 	/*
@@ -97,6 +113,10 @@ public class main extends JavaPlugin {
 	
 	public static CalendarConfig getCalendarConfig() {
 		return calendarConfig;
+	}
+	
+	public static CommandConfig getCommandConfig() {
+		return commandConfig;
 	}
 	
 }
