@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class Date {
 	
 	TimeSystem timeSystem;
+	long rootTicks;
 	
 	long tick;
 	long second;
@@ -20,8 +21,8 @@ public class Date {
 	 * Is called when an instance of this class is created.
 	 * Declares all class variables with the given parameters.
 	 */
-	public Date(TimeSystem timeSystem,
-			
+	public Date(TimeSystem timeSystem, long rootTicks,
+				
 				long tick,
 				long second,
 				long minute,
@@ -33,6 +34,7 @@ public class Date {
 				long era){
 		
 		this.timeSystem = timeSystem;
+		this.rootTicks = rootTicks;
 		
 		this.tick 	 = tick;
 		this.second  = second;
@@ -53,6 +55,7 @@ public class Date {
 	public Date(Date date){
 		
 		this.timeSystem = date.getTimeSystem();
+		this.rootTicks  = date.getRootTicks();
 		
 		this.tick 	= date.getTick();
 		this.second = date.getSecond();
@@ -71,6 +74,13 @@ public class Date {
 	 */
 	public TimeSystem getTimeSystem() {
 		return timeSystem;
+	}
+	
+	/*
+	 * Getter for the root ticks ( The ticks of the full date)
+	 */
+	public long getRootTicks() {
+		return rootTicks;
 	}
 	
 	/*

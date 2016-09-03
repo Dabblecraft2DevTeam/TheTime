@@ -13,7 +13,6 @@ public class InventoryCaller implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event){
-		
 		new Click(event);
 		
 	}

@@ -25,7 +25,7 @@
 #   'size:' will be the minimum size of the inventory.
 #   'toggle:' if you set this to false the item will not be displayed.
 #   'amount:' The amount can also be a placeholder.
-#   'lore:' if you remove this parameter there will be no lore displayed. (Don't leave it there with no value it will cause errors)
+#   'lore:' if you remove this parameter there will be no lore displayed. You can also add it again.(Don't leave it there with no value it will cause errors)
 # 
 title: '%dayName% the %day% - %monthName% - %year%'
 size: 9
@@ -37,20 +37,16 @@ items:
     id: 5
     amount: '%day%'
     lore:
-    - '&oToday we have the %day% %monthName%!'
+    - '&oToday we have the %day%.%monthName%!'
   day:
     toggle: true
     name: '&2%day%'
     material: STAINED_GLASS_PANE
     id: 0
     amount: '%day%'
-    lore:
-    - A day.
   week:
     toggle: true
     name: '&3Week %week%'
     material: STAINED_GLASS_PANE
     id: 7
     amount: '%week%'
-    lore:
-    - Have a nice week!

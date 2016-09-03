@@ -3,6 +3,7 @@ package backend.date;
 public enum DateEnum {
 	
 	timeSystem,
+	rootTicks,
 	
 	tick,
 	second,

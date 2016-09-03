@@ -1,8 +1,11 @@
 package frontend.inventory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Bukkit;
@@ -183,7 +186,7 @@ public class Calendar {
 		Material material = (Material) itemProperties.get(ItemProperties.MATERIAL);
 		int id = (int) itemProperties.get(ItemProperties.ID);
 		int amount = Integer.valueOf(this.replacePlaceholder((String) itemProperties.get(ItemProperties.AMOUNT), date));
-		List<String> lore = (List<String>) itemProperties.get(ItemProperties.LORE);
+		List<String> lore = new ArrayList<String>((List<String>) itemProperties.get(ItemProperties.LORE));
 			if(lore != null){
 				for(String line : lore){
 					lore.set(lore.indexOf(line), this.replacePlaceholder(line, date));
@@ -283,16 +286,15 @@ public class Calendar {
 		/*
 		 * Replaces date text placeholder.
 		 */
-		long weekDay = date.getDay();
-		while(weekDay > (timeSystem.getDaysPerWeek() - timeSystem.getDayZero())){
-			weekDay =  weekDay - (timeSystem.getDaysPerWeek() - timeSystem.getDayZero());
-		}
+		date = dateUtils.removeZero(date);
+		
+		long weekDay = date.getDay() - (date.getWeek() * timeSystem.getDaysPerWeek());
 		
 		
 		message = message
 				.replaceAll("%dayName%", timeSystem.getDayNames().get((int) weekDay))
-				.replaceAll("%monthName%", timeSystem.getMonthNames().get((int) dateUtils.removeZero(date).getMonth()))
-				.replaceAll("%eraName%", timeSystem.getEraNames().get((int) dateUtils.removeZero(date).getEra()));
+				.replaceAll("%monthName%", timeSystem.getMonthNames().get((int) date.getMonth()))
+				.replaceAll("%eraName%", timeSystem.getEraNames().get((int) date.getEra()));
 		
 		return message;
 	}

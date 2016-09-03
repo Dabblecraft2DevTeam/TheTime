@@ -1,8 +1,11 @@
 package backend.date;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
+import backend.main.main;
 
 public class DateUtils {
 	
@@ -14,6 +17,9 @@ public class DateUtils {
 		
 		HashMap<DateEnum, Object> dateMap = new HashMap<DateEnum, Object>();
 		
+		dateMap.put(DateEnum.timeSystem, date.getTimeSystem());
+		dateMap.put(DateEnum.rootTicks, date.getRootTicks());
+		
 		dateMap.put(DateEnum.tick, date.getTick());
 		dateMap.put(DateEnum.second, date.getSecond());
 		dateMap.put(DateEnum.minute, date.getMinute());
@@ -24,8 +30,6 @@ public class DateUtils {
 		dateMap.put(DateEnum.year, date.getYear());
 		dateMap.put(DateEnum.era, date.getEra());
 		
-		dateMap.put(DateEnum.timeSystem, date.getTimeSystem());
-		
 		return dateMap;
 	}
 	
@@ -33,7 +37,7 @@ public class DateUtils {
 	 * Method to create a date with a timeSystem, but 0 paramaters.
 	 */
 	public Date getNullDate(TimeSystem timeSystem){
-		return new Date(timeSystem, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		return new Date(timeSystem, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 	
 	/*
@@ -81,302 +85,111 @@ public class DateUtils {
 	/*
 	 * Methods to calculate up or down a single parameter from a given date, with the date timeSystem.
 	 * With maximum and minimum check.
-	 */
-	public Date upTick(Date date){
-		
-		/*
-		 * Creates a new copy of the Date and TimeSystem
-		 */
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		/*
-		 * Gets the current tick
-		 */
-		long tick = date.getTick();
-		
-		/*
-		 * Declares variables for the minimum and maximum ticks
-		 */
-		long minTick = 0;
-		long maxTick = timeSystem.getTicksPerSecond() - timeSystem.getTickZero();
-		
-			/*
-			 * Calls up(tick, minTick, maxTick). Return upUnit boolean.
-			 * If true calls upSecond(date).
-			 */
-			if(up(tick, minTick, maxTick)){
-				upSecond(date);
-			}
-		/*
-		 * Sets the new tick in the date object.
-		 */
-		date.setTick(tick);;
-		
-		/*
-		 * Returns the new date.
-		 */
-		return date;
-	}
+	 */	
 	
-	public Date downTick(Date date){
+	private Date up(DateEnum unit, Date date){
 		date = new Date(date);
 		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
 		
-		long tick = date.getTick();
+		DateCalculator dateCalculator = main.getDateCalculator();
+		long rootTicks = date.getRootTicks();
 		
-		long minTick = 0;
-		long maxTick = timeSystem.getTicksPerSecond() - timeSystem.getTickZero();
-		
-			if(down(tick, minTick, maxTick)){
-				date = downSecond(date);
+		long ticksPerSecond = timeSystem.getTicksPerSecond();
+		long ticksPerMinute = ticksPerSecond * timeSystem.getSecondsPerMinute();
+		long ticksPerHour 	= ticksPerMinute * timeSystem.getMinutesPerHour();
+		long ticksPerDay    = ticksPerHour   * timeSystem.getHoursPerDay();
+		long ticksPerWeek   = ticksPerDay    * timeSystem.getDaysPerWeek();
+		ArrayList<Long> ticksPerMonth = new ArrayList<Long>();
+			for(long daysThisMonth : timeSystem.getDaysPerMonth()){
+				ticksPerMonth.add(ticksPerDay * daysThisMonth);
+			}
+		long ticksPerYear  = 0;
+			for(long ticksThisMonth : ticksPerMonth){
+				ticksPerYear = ticksPerYear + ticksThisMonth;
 			}
 		
-		date.setTick(tick);
+		switch(unit){
 		
-		return date;
-	}
-
-	public Date upSecond(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
+		case tick:
+			return dateCalculator.calculateDate(rootTicks + 1, timeSystem);
 		
-		long second = date.getSecond();
+		case second:
+			return dateCalculator.calculateDate(rootTicks + ticksPerSecond,  timeSystem);
 		
-		long minSecond = 0;
-		long maxSecond = timeSystem.getSecondsPerMinute() - timeSystem.getSecondZero();
+		case minute:
+			return dateCalculator.calculateDate(rootTicks + ticksPerMinute, timeSystem);
 		
-			if(up(second, minSecond, maxSecond)){
-				upMinute(date);
-			}
+		case hour:
+			return dateCalculator.calculateDate(rootTicks + ticksPerHour, timeSystem);
 		
-			date.setSecond(second);
+		case day:
+			return dateCalculator.calculateDate(rootTicks + ticksPerDay, timeSystem);
 		
-		return date;
-	}
-	
-	public Date downSecond(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
+		case week:
+			return dateCalculator.calculateDate(rootTicks + ticksPerWeek, timeSystem);
 		
-		long second = date.getSecond();
+		case month:
+			return dateCalculator.calculateDate(rootTicks + ticksPerMonth.get((int) date.getMonth() + 1), timeSystem);
 		
-		long minSecond = 0;
-		long maxSecond = timeSystem.getSecondsPerMinute() - timeSystem.getSecondZero();
+		case year:
+			return dateCalculator.calculateDate(rootTicks + ticksPerYear, timeSystem);
 		
-			if(down(second, minSecond, maxSecond)){
-				date = downMinute(date);
-			}
-			
-			date.setSecond(second);;
-		
-		return date;
-	}
-	
-	public Date upMinute(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long minute = date.getMinute();
-		
-		long minMinute = 0;
-		long maxMinute = timeSystem.getMinutesPerHour() - timeSystem.getMinuteZero();
-		
-		
-			if(up(minute, minMinute, maxMinute)){
-				date = upHour(date);
-			}
-			
-			date.setMinute(minute);
-		
-		return date;
-	}
-	
-	public Date downMinute(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long minute = date.getMinute();
-		
-		long minMinute = 0;
-		long maxMinute = timeSystem.getMinutesPerHour() - timeSystem.getMinuteZero();
-		
-			if(down(minute, minMinute, maxMinute)){
-				date = upHour(date);
-			}
-			
-			date.setMinute(minute);
-		
-		return date;
-	}
-	
-	public Date upHour(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long hour = date.getHour();
-		
-		long minHour = 0;
-		long maxHour = timeSystem.getHoursPerDay() - timeSystem.getHourZero();
-		
-			if(up(hour, minHour, maxHour)){
-				date = upDay(date);
-			}
-			
-		date.setHour(hour);
-		
-		return date;
-	}
-	
-	public Date downHour(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long hour = date.getHour();
-		
-		long minHour = 0;
-		long maxHour = timeSystem.getHoursPerDay() - timeSystem.getHourZero();
-		
-			if(down(hour, minHour, maxHour)){
-				date = downDay(date);
-			}
-			
-		date.setHour(hour);
-		
-		return date;
-	}
-	
-	public Date upDay(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long day = date.getDay();
-		
-		long minDay = 0;
-		long maxWeekDay = timeSystem.getDaysPerWeek() - timeSystem.getDayZero();
-		long maxMonthDay = timeSystem.getDaysPerMonth().get((int) date.getMonth()) - timeSystem.getDayZero();
-		
-			if(up(day, minDay, maxMonthDay)){
-				date = upMonth(date);
-			}
-			
-		date.setDay(day);
-		
-		return date;
-	}
-	
-	public Date downDay(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long day = date.getDay();
-		
-		long minDay = 0;
-		long maxMonthDay = timeSystem.getDaysPerMonth().get((int) date.getMonth()) - timeSystem.getDayZero();
-		
-			if(down(day, minDay, maxMonthDay)){
-				date = downMonth(date);
-			}
-		
-		date.setDay(day);
-		
-		return date;
-	}
-	
-	public Date upMonth(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long month = date.getMonth();
-		
-		long minMonth = 0;
-		long maxMonth = timeSystem.getMonthsPerYear() - timeSystem.getMonthZero();
-		
-			if(up(month, minMonth, maxMonth)){
-				date  = upYear(date);
-			}
-			
-		date.setMonth(month);
-		
-		return date;
-	}
-	
-	public Date downMonth(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long month = date.getMonth();
-		
-		long minMonth = 0;
-		long maxMonth = timeSystem.getMonthsPerYear() - timeSystem.getMonthZero();
-		
-			if(down(month, minMonth, maxMonth)){
-				date = downYear(date);
-			}
-			
-			date.setMonth(month);
-		
-		return date;
-	}
-	
-	public Date upYear(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long year = date.getYear();
-		
-		long minYear = Long.MIN_VALUE;
-		long maxYear = Long.MAX_VALUE;
-		
-				if(up(year, minYear, maxYear)){
-				}
-		
-				date.setYear(year);
-				
-		return date;
-	}
-	
-	public Date downYear(Date date){
-		date = new Date(date);
-		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
-		
-		long year = date.getYear();
-		
-		long minYear = Long.MIN_VALUE;
-		long maxYear = Long.MAX_VALUE;
-			
-				if(down(year, minYear, maxYear)){
-				}
-				
-				date.setYear(year);
-		
-		return date;
-	}
-	
-	
-	private boolean up(long unit, long unitMin, long unitMax){
-		boolean unitUp = false;
-		
-		if(unit < unitMax){
-			unit++;
-		}else{
-			unitUp = true;
-			unit = unitMin;
+		default:
+			return date;
 		}
 		
-		return unitUp;
 	}
 	
-	private boolean down(long unit, long unitMin, long unitMax){
-		boolean unitDown = false;
+	private Date down(DateEnum unit, Date date){
+		date = new Date(date);
+		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
 		
-		if(unit > unitMin){
-			unit--;
-		}else{
-			unitDown = true;
-			unit = unitMin;
+		DateCalculator dateCalculator = main.getDateCalculator();
+		long rootTicks = date.getRootTicks();
+		
+		long ticksPerSecond = timeSystem.getTicksPerSecond();
+		long ticksPerMinute = ticksPerSecond * timeSystem.getSecondsPerMinute();
+		long ticksPerHour 	= ticksPerMinute * timeSystem.getMinutesPerHour();
+		long ticksPerDay    = ticksPerHour   * timeSystem.getHoursPerDay();
+		long ticksPerWeek   = ticksPerDay    * timeSystem.getDaysPerWeek();
+		ArrayList<Long> ticksPerMonth = new ArrayList<Long>();
+			for(long daysThisMonth : timeSystem.getDaysPerMonth()){
+				ticksPerMonth.add(ticksPerDay * daysThisMonth);
+			}
+		long ticksPerYear  = 0;
+			for(long ticksThisMonth : ticksPerMonth){
+				ticksPerYear = ticksPerYear + ticksThisMonth;
+			}
+		
+switch(unit){
+		
+		case tick:
+			return dateCalculator.calculateDate(rootTicks - 1, timeSystem);
+		
+		case second:
+			return dateCalculator.calculateDate(rootTicks - ticksPerSecond,  timeSystem);
+		
+		case minute:
+			return dateCalculator.calculateDate(rootTicks - ticksPerMinute, timeSystem);
+		
+		case hour:
+			return dateCalculator.calculateDate(rootTicks - ticksPerHour, timeSystem);
+		
+		case day:
+			return dateCalculator.calculateDate(rootTicks - ticksPerDay, timeSystem);
+		
+		case week:
+			return dateCalculator.calculateDate(rootTicks - ticksPerWeek, timeSystem);
+		
+		case month:
+			return dateCalculator.calculateDate(rootTicks - ticksPerMonth.get((int) date.getMonth() - 1), timeSystem);
+		
+		case year:
+			return dateCalculator.calculateDate(rootTicks - ticksPerYear, timeSystem);
+		
+		default:
+			return date;
 		}
 		
-		return unitDown;
 	}
 }

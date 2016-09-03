@@ -41,6 +41,12 @@ public class DateCalculator {
 		
 		
 		/*
+		 * Date and time calculation
+		 */
+			
+		long rootTicks = ticks;
+		
+		/*
 		 * Divides ticks by ticksPerYear to get the amount of years. After that subtracts the ticks of the years from the ticks.
 		 */
 		year = ticks / ticksPerYear;
@@ -86,7 +92,7 @@ public class DateCalculator {
 			}
 		}
 		
-		date = new Date(timeSystem, tick, second, minute, hour, day, week, month, year, era);
+		date = new Date(timeSystem, rootTicks, tick, second, minute, hour, day, week, month, year, era);
 		
 		return date;
 	}
