@@ -1,2 +1,2 @@
 # TheTime
-ReadME
+The world calendar for your RPG Minecraft server
