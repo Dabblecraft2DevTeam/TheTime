@@ -86,7 +86,6 @@ public class DateUtils {
 	 * Methods to calculate up or down a single parameter from a given date, with the date timeSystem.
 	 * With maximum and minimum check.
 	 */	
-	
 	private Date up(DateEnum unit, Date date){
 		date = new Date(date);
 		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());

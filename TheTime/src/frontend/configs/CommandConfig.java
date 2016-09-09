@@ -17,9 +17,9 @@ public class CommandConfig extends Config implements ConfigUtils {
 	FileConfiguration config;
 	
 	public CommandConfig() {
-		super();
+		super(main.instance.getDataFolder(), "CommandConfig.yml");
 		
-		config = super.loadConfig(main.instance.getDataFolder(), "CommandConfig.yml");
+		config = super.loadConfig();
 	}
 	
 	public HashMap<CommandErrors, String> getErrors() {	
@@ -36,8 +36,8 @@ public class CommandConfig extends Config implements ConfigUtils {
 		return errors;
 	}
 	
-	public void reloadConfig() {
-		config = super.reloadConfig(config, main.instance.getDataFolder(), "CommandConfig.yml");
+	public FileConfiguration reloadConfig() {
+		return config = super.reloadConfig();
 	}
 	
 	/*

@@ -5,19 +5,13 @@
 #  
 Time-Systems:
   default:
-    tick:
-      zero: 1
     second:
-      zero: 1
       ticksPerSecond: 20
     minute:
-      zero: 1
       secondsPerMinute: 5
     hour:
-      zero: 1
       minutesPerHour: 10
     day:
-      zero: 1
       hoursPerDay: 24
       dayNames:
         1:
@@ -35,10 +29,8 @@ Time-Systems:
         7:
           name: 'Sunday'
     week:
-      zero: 1
       daysPerWeek: 7
     month:
-      zero: 1
       daysPerMonth:
         1:
           name: 'Januray'
@@ -80,7 +72,6 @@ Time-Systems:
       zero: 1
       monthsPerYear: 12
     era:
-      zero: 1
       eras:
         1:
           name: 'Begin'

@@ -186,12 +186,16 @@ public class Calendar {
 		Material material = (Material) itemProperties.get(ItemProperties.MATERIAL);
 		int id = (int) itemProperties.get(ItemProperties.ID);
 		int amount = Integer.valueOf(this.replacePlaceholder((String) itemProperties.get(ItemProperties.AMOUNT), date));
-		List<String> lore = new ArrayList<String>((List<String>) itemProperties.get(ItemProperties.LORE));
-			if(lore != null){
-				for(String line : lore){
-					lore.set(lore.indexOf(line), this.replacePlaceholder(line, date));
-				}
-			}
+		
+		List<String> lore = null;
+			if(itemProperties.get(ItemProperties.LORE) != null){
+				lore = new ArrayList<String>((List<String>) itemProperties.get(ItemProperties.LORE));
+					if(lore != null){
+						for(String line : lore){
+							lore.set(lore.indexOf(line), this.replacePlaceholder(line, date));
+						}
+					}
+		}
 			
 		if((boolean) itemProperties.get(ItemProperties.TOGGLE)){
 			return new ItemCreator(material, amount,(short) id, name, lore).getItem();
@@ -289,7 +293,6 @@ public class Calendar {
 		date = dateUtils.removeZero(date);
 		
 		long weekDay = date.getDay() - (date.getWeek() * timeSystem.getDaysPerWeek());
-		
 		
 		message = message
 				.replaceAll("%dayName%", timeSystem.getDayNames().get((int) weekDay))

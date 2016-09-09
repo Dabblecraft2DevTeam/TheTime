@@ -10,9 +10,13 @@ public class CommandCaller implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
 		/*
-		 * Creates a new CalendarCommand Object if the command equals 'calendar'.
+		 * Creates a new CalendarCommand Object if the command equals a calendar command.
 		 */
 		if(command.getName().equalsIgnoreCase("calendar")){
+			new CalendarCommand(sender, command, label, args);
+		}
+		
+		if(command.getName().equalsIgnoreCase("date")){
 			new CalendarCommand(sender, command, label, args);
 		}
 		

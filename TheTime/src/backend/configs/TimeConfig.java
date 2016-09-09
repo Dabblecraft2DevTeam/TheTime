@@ -13,14 +13,12 @@ import net.md_5.bungee.api.ChatColor;
 
 public class TimeConfig extends Config implements ConfigUtils {
 	
-	main instance = main.instance;
-	
 	FileConfiguration config;
 	
 	public TimeConfig() {
-		super();
+		super(main.instance.getDataFolder(), "TimeConfig.yml");
 		
-		config = super.loadConfig(instance.getDataFolder(), "TimeConfig.yml");
+		config = super.loadConfig();
 		reader();
 	}
 	
@@ -76,32 +74,31 @@ public class TimeConfig extends Config implements ConfigUtils {
 		
 		//Tick
 		path = defaultPath + "tick.";
-		
-		tickZero = getZero(path);
+		tickZero = 0;
 		
 		//Second
 		path = defaultPath + "second.";
 		
 		ticksPerSecond = getLong(path + "ticksPerSecond");
-		secondZero = getZero(path);
+		secondZero = 0;
 		
 		//Minute
 		path = defaultPath + "minute.";
 		
 		secondsPerMinute = getLong(path + "secondsPerMinute");
-		minuteZero = getZero(path);
+		minuteZero = 0;
 		
 		//Hour
 		path = defaultPath + "hour.";
 		
 		minutesPerHour = getLong(path + "minutesPerHour");
-		hourZero = getZero(path);
+		hourZero = 1;
 		
 		//Day
 		path = defaultPath + "day.";
 		
 		hoursPerDay = getLong(path + "hoursPerDay");
-		dayZero = getZero(path);
+		dayZero = 1;
 		
 		ArrayList<Object> dayNamesObject = getSection(path + "dayNames", "name");
 		for(Object dayNameObject : dayNamesObject){
@@ -112,7 +109,7 @@ public class TimeConfig extends Config implements ConfigUtils {
 		path = defaultPath + "week.";
 				
 		daysPerWeek = getLong(path + "daysPerWeek");
-		weekZero = getZero(path);
+		weekZero = 1;
 		
 		//Month
 		path = defaultPath + "month.";
@@ -121,8 +118,8 @@ public class TimeConfig extends Config implements ConfigUtils {
 			for(Object daysThisMonthObject : daysPerMonthObject){
 					daysPerMonth.add(Long.valueOf((String) daysThisMonthObject));
 			}		
-		monthZero = getZero(path);
-		
+		monthZero = 1;
+			
 		ArrayList<Object> monthNamesObject = getSection(path + "daysPerMonth", "name");
 			for(Object monthNameObject : monthNamesObject){
 				monthNames.add((String) monthNameObject);
@@ -145,7 +142,6 @@ public class TimeConfig extends Config implements ConfigUtils {
 			for(Object erasEndObject : erasEndObjects){
 				erasEnd.add(Long.valueOf((String) erasEndObject));
 			}
-		eraZero = getZero(path);
 		
 		ArrayList<Object> erasNameObjects = getSection(path + "eras", "name");
 			for(Object eraNameObject : erasNameObjects){
@@ -184,8 +180,8 @@ public class TimeConfig extends Config implements ConfigUtils {
 	/*
 	 * Calls reloadConfig() in Config.
 	 */
-	public void reloadConfig() {
-		config = super.reloadConfig(config, main.instance.getDataFolder(), "TimeConfig.yml");
+	public FileConfiguration reloadConfig() {
+		return config = super.reloadConfig();
 	}
 	
 	/*

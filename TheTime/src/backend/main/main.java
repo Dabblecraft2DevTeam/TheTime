@@ -77,6 +77,8 @@ public class main extends JavaPlugin {
 		CommandCaller commandCaller = new CommandCaller();
 		
 		getCommand("calendar").setExecutor(commandCaller);
+		getCommand("date").setExecutor(commandCaller);
+		
 		getCommand("TheTime").setExecutor(commandCaller);
 		
 	}
