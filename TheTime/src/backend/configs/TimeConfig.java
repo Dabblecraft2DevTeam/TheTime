@@ -147,7 +147,7 @@ public class TimeConfig extends Config implements ConfigUtils {
 			for(Object eraNameObject : erasNameObjects){
 				eraNames.add((String) eraNameObject);
 			}
-
+		eraZero = 1;
 		
 		TimeSystem timeSystem = new TimeSystem(timeSystemName,
 											   ticksPerSecond,

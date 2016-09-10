@@ -85,9 +85,11 @@ public class DateCalculator {
 		 */
 		for(long eraBegin : erasBegin){
 			int index = erasBegin.indexOf(eraBegin);
-			long eraEnd = erasEnd.get(index);
+			eraBegin 	= eraBegin  		 - timeSystem.getYearZero();
+			long eraEnd = erasEnd.get(index) - timeSystem.getYearZero();
 			
-			if(eraBegin <= year && eraEnd >= year){
+			if(year >= eraBegin && year <= eraEnd){
+				
 				era = index;
 			}
 		}
