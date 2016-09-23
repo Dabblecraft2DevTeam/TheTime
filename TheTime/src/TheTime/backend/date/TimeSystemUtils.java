@@ -1,6 +1,9 @@
 package TheTime.backend.date;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import TheTime.backend.main.main;
 
 public class TimeSystemUtils {
 	
@@ -35,6 +38,57 @@ public class TimeSystemUtils {
 			timeSystemMap.put(TimeSystemEnum.eraZero, timeSystem.getEraZero());
 			
 			return null;
+	}
+	
+	/*
+	 * Method to get the ticks of the different date units.
+	 */
+	public Object getTicksPerUnit(DateEnum unit, TimeSystem timeSystem) {
+		
+		/*
+		 * Calculates the ticks for each date parameter.
+		 */
+		long ticksPerSecond = timeSystem.getTicksPerSecond();
+		
+		long ticksPerMinute = ticksPerSecond * timeSystem.getSecondsPerMinute();
+		
+		long ticksPerHour 	= ticksPerMinute * timeSystem.getMinutesPerHour();
+		
+		long ticksPerDay    = ticksPerHour   * timeSystem.getHoursPerDay();
+		
+		long ticksPerWeek   = ticksPerDay    * timeSystem.getDaysPerWeek();
+		
+		ArrayList<Long> ticksPerMonth = new ArrayList<Long>();
+			for(long daysThisMonth : timeSystem.getDaysPerMonth()){
+				ticksPerMonth.add(ticksPerDay * daysThisMonth);
+			}
+			
+		long ticksPerYear  = 0;
+			for(long ticksThisMonth : ticksPerMonth){
+				ticksPerYear = ticksPerYear + ticksThisMonth;
+			}
+			
+			
+		switch(unit) {
+			case tick:
+				return 1;
+			case second:
+				return ticksPerSecond;
+			case minute:
+				return ticksPerMinute;
+			case hour:
+				return ticksPerHour;
+			case day:
+				return ticksPerDay;
+			case week:
+				return ticksPerWeek;
+			case month:
+				return ticksPerMonth;
+			case year:
+				return ticksPerYear;
+			default:
+				return 0;
+		}
 	}
 
 }

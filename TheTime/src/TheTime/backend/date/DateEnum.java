@@ -3,7 +3,6 @@ package TheTime.backend.date;
 public enum DateEnum {
 	
 	timeSystem,
-	rootTicks,
 	
 	tick,
 	second,

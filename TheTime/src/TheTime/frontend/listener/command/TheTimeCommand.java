@@ -37,7 +37,7 @@ public class TheTimeCommand {
 			
 			// Checks if the Command argument is 'reload'.
 			if(args[0].equalsIgnoreCase("reload")){
-				// Checks if the sender has engouh permissions to execute a reload.
+				// Checks if the sender has enough permissions to execute a reload.
 				if(sender.hasPermission("TheTime.reload")){
 					// Reloads the configs.
 					main.getTimeConfig().reloadConfig();

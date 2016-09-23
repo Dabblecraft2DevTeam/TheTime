@@ -2,9 +2,13 @@ package TheTime.backend.date;
 
 import java.util.ArrayList;
 
+import TheTime.backend.main.main;
+
 public class DateCalculator {
 	
-	public Date calculateDate(long ticks, TimeSystem timeSystem){
+	TimeSystemUtils timeSystemUtils = main.getTimeSystemUtils();
+	
+	public Date dateFromTicks(long ticks, TimeSystem timeSystem){
 		
 		Date date;
 		

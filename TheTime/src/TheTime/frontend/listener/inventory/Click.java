@@ -16,19 +16,14 @@ public class Click {
 		
 		Inventory inventory = event.getClickedInventory();
 		ItemStack item = event.getCurrentItem();
-		
-		/*
-		 * Checks if the player has a calendar inventory.
-		 */
+	
+		// Checks if the player has a calendar inventory opend.
 		if(main.storages.containsKey(player)){
-			/*
-			 * Cancels the event.
-			 */
+			
+			// Cancels the event.
 			event.setCancelled(true);
 			
-			/*
-			 * Gets the storage of the player.
-			 */
+			// Gets the storage of the player.
 			Storage storage = main.storages.get(player);
 			
 			

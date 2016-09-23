@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import TheTime.backend.configs.TimeConfig;
 import TheTime.backend.date.DateCalculator;
 import TheTime.backend.date.DateUtils;
+import TheTime.backend.date.TimeSystem;
+import TheTime.backend.date.TimeSystemUtils;
 import TheTime.frontend.configs.CalendarConfig;
 import TheTime.frontend.configs.CommandConfig;
 import TheTime.frontend.gui.Calendar;
@@ -37,6 +39,7 @@ public class main extends JavaPlugin {
 	
 	private static DateCalculator dateCalculator;
 	private static DateUtils dateUtils;
+	private static TimeSystemUtils timeSystemUtils;
 	
 	private static StorageUtils storageUtils;
 	
@@ -66,6 +69,7 @@ public class main extends JavaPlugin {
 		
 		dateCalculator = new DateCalculator();
 		dateUtils = new DateUtils();
+		timeSystemUtils = new TimeSystemUtils();
 		
 		storageUtils = new StorageUtils();
 		
@@ -112,6 +116,10 @@ public class main extends JavaPlugin {
 	
 	public static DateUtils getDateUtils(){
 		return dateUtils;
+	}
+	
+	public static TimeSystemUtils getTimeSystemUtils() {
+		return timeSystemUtils;
 	}
 	
 	public static StorageUtils getStorageUtils() {

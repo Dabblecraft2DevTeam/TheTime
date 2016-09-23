@@ -5,34 +5,34 @@ import java.util.ArrayList;
 public class TimeSystem {
 	
 	//TimeSystem name
-	String name;
+	private String name;
 	
 	//Date parameters.
-	long ticksPerSecond;
-	long secondsPerMinute;
-	long minutesPerHour;
-	long hoursPerDay;
-	long daysPerWeek;
-	ArrayList<Long> daysPerMonth;
-	long monthsPerYear;
-	ArrayList<Long> erasBegin;
-	ArrayList<Long> erasEnd;
+	private long ticksPerSecond;
+	private long secondsPerMinute;
+	private long minutesPerHour;
+	private long hoursPerDay;
+	private long daysPerWeek;
+	private ArrayList<Long> daysPerMonth;
+	private long monthsPerYear;
+	private ArrayList<Long> erasBegin;
+	private ArrayList<Long> erasEnd;
 
 	// Zero points
-	long tickZero;
-	long secondZero;
-	long minuteZero;
-	long hourZero;
-	long dayZero;
-	long weekZero;
-	long monthZero;
-	long yearZero;
-	long eraZero;
+	private long tickZero;
+	private long secondZero;
+	private long minuteZero;
+	private long hourZero;
+	private long dayZero;
+	private long weekZero;
+	private long monthZero;
+	private long yearZero;
+	private long eraZero;
 	
 	//Date parameter names.
-	ArrayList<String> dayNames;
-	ArrayList<String> monthNames;
-	ArrayList<String> eraNames;
+	private ArrayList<String> dayNames;
+	private ArrayList<String> monthNames;
+	private ArrayList<String> eraNames;
 	
 	/*
 	 * Is called when an instance of this class is created.

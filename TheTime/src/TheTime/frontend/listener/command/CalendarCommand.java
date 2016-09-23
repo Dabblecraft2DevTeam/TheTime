@@ -50,8 +50,8 @@ public class CalendarCommand {
 								TimeSystem timeSystem = timeSystems.get("default");
 								
 								// Creates the needed date Objects
-								Date date = main.getDateCalculator().calculateDate(player.getWorld().getFullTime(), timeSystem);
-								Date creationDate = main.getDateCalculator().calculateDate(player.getWorld().getFullTime(), timeSystem);
+								Date date = main.getDateCalculator().dateFromTicks(player.getWorld().getFullTime(), timeSystem);
+								Date creationDate = main.getDateCalculator().dateFromTicks(player.getWorld().getFullTime(), timeSystem);
 								
 								// Creates a new calendar instance and stores it.
 								Calendar calendar = new Calendar(date, creationDate);
@@ -91,8 +91,8 @@ public class CalendarCommand {
 							 * Gets given TimeSystem from the name and the current Date.
 							 */
 							TimeSystem timeSystem = timeSystems.get(timeSystemName);
-							Date date = main.getDateCalculator().calculateDate(player.getWorld().getFullTime(), timeSystem);
-							Date creationDate = main.getDateCalculator().calculateDate(player.getWorld().getFullTime(), timeSystem);
+							Date date = main.getDateCalculator().dateFromTicks(player.getWorld().getFullTime(), timeSystem);
+							Date creationDate = main.getDateCalculator().dateFromTicks(player.getWorld().getFullTime(), timeSystem);
 							
 							// Creates a new calendar instance and stores it.
 							Calendar calendar = new Calendar(date, creationDate);

@@ -15,7 +15,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import TheTime.backend.date.Date;
+import TheTime.backend.date.DateEnum;
 import TheTime.backend.date.TimeSystem;
+import TheTime.backend.date.TimeSystemUtils;
 import TheTime.backend.item.ItemCreator;
 import TheTime.backend.item.ItemProperties;
 import TheTime.backend.item.Items;
@@ -106,7 +108,8 @@ public class Calendar {
 		 * Declares variables for week slot and day slot. 
 		 */
 		int weekSlot = (int) daysPerWeek;
-		int daySlot = 0;
+		int daySlot = (int) dateUtils.getDayOfWeek(dateUtils.down(DateEnum.day, (int) date.getDay(), date));
+		int dayNullSlot = daySlot;
 		
 		int monthDay = 0;
 		
@@ -120,13 +123,13 @@ public class Calendar {
 			/*
 			 * Goes threw each week of the month.
 			 */
-			for(int week = 0; week <= (weeksPerMonth - timeSystem.getWeekZero()); week++){
+			for(int week = 0; week <= (weeksPerMonth - timeSystem.getWeekZero()); week++, weekSlot = weekSlot + 9){
 				date.setWeek(week);
 				
 				/*
 				 * Goes threw each day of the week.
 				 */
-				for(int day = 0; day <= (daysPerWeek - timeSystem.getDayZero()); day++){
+				for(int day = 0; day <= (daysPerWeek - timeSystem.getDayZero()); day++, daySlot++){
 					date.setDay(monthDay);
 					monthDay++;
 					
@@ -152,14 +155,23 @@ public class Calendar {
 					}
 					
 					/*
+					 *  Corretion for the daySlot of the first week.
+					 */
+					if(week == 0) {
+						if(daySlot >= daysPerWeek - 1) {
+							daySlot++;
+							break;
+						}
+					}
+					
+					/*
 					 * Checks for the end of the month.
 					 */
 					if(date.getDay() == daysPerMonth){
 						week = (int) ((weeksPerMonth - timeSystem.getWeekZero()) + 1);
 						day = (int) ((daysPerWeek- timeSystem.getDayZero()) + 1);
 					}
-					
-					daySlot++;
+
 				}
 				
 				/*
@@ -171,8 +183,6 @@ public class Calendar {
 						weekItems.add(weekItem);
 					}
 				
-				
-				weekSlot = weekSlot + 9;
 				daySlot = (int) (daySlot + (8 - (daysPerWeek - timeSystem.getDayZero())));
 			}
 			
@@ -301,10 +311,10 @@ public class Calendar {
 		 */
 		date = dateUtils.removeZero(date);
 		
-		long weekDay = date.getDay() - (date.getWeek() * timeSystem.getDaysPerWeek());
+		long dayOfWeek = dateUtils.getDayOfWeek(date);
 		
 		message = message
-				.replaceAll("%dayName%", timeSystem.getDayNames().get((int) weekDay))
+				.replaceAll("%dayName%", timeSystem.getDayNames().get((int) dayOfWeek))
 				.replaceAll("%monthName%", timeSystem.getMonthNames().get((int) date.getMonth()))
 				.replaceAll("%eraName%", timeSystem.getEraNames().get((int) date.getEra()));
 		
