@@ -49,13 +49,9 @@ public class TimeSystemUtils {
 		 * Calculates the ticks for each date parameter.
 		 */
 		long ticksPerSecond = timeSystem.getTicksPerSecond();
-		
 		long ticksPerMinute = ticksPerSecond * timeSystem.getSecondsPerMinute();
-		
 		long ticksPerHour 	= ticksPerMinute * timeSystem.getMinutesPerHour();
-		
 		long ticksPerDay    = ticksPerHour   * timeSystem.getHoursPerDay();
-		
 		long ticksPerWeek   = ticksPerDay    * timeSystem.getDaysPerWeek();
 		
 		ArrayList<Long> ticksPerMonth = new ArrayList<Long>();

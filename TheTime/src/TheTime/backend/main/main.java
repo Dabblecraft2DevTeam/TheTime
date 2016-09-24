@@ -67,12 +67,12 @@ public class main extends JavaPlugin {
 	 */
 	private void registerObjects() {
 		
-		dateCalculator = new DateCalculator();
 		dateUtils = new DateUtils();
 		timeSystemUtils = new TimeSystemUtils();
-		
 		storageUtils = new StorageUtils();
 		
+		dateCalculator = new DateCalculator();
+
 		timeConfig = new TimeConfig();
 		calendarConfig = new CalendarConfig();
 		commandConfig = new CommandConfig();

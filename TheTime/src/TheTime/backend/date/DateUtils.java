@@ -85,7 +85,7 @@ public class DateUtils {
 	 * Methods to calculate up or down a single parameter from a given date, with the date timeSystem.
 	 * With maximum and minimum check.
 	 */	
-	public Date up(DateEnum unit, Date date){
+	public Date up(DateEnum unit, int count, Date date){
 		date = new Date(date);
 		TimeSystem timeSystem = new TimeSystem(date.getTimeSystem());
 		
@@ -109,28 +109,28 @@ public class DateUtils {
 	switch(unit){
 		
 		case tick:
-			return dateCalculator.dateFromTicks(ticks + 1, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (1 * count), timeSystem);
 		
 		case second:
-			return dateCalculator.dateFromTicks(ticks + ticksPerSecond,  timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerSecond * count),  timeSystem);
 		
 		case minute:
-			return dateCalculator.dateFromTicks(ticks + ticksPerMinute, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerMinute * count), timeSystem);
 		
 		case hour:
-			return dateCalculator.dateFromTicks(ticks + ticksPerHour, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerHour * count), timeSystem);
 		
 		case day:
-			return dateCalculator.dateFromTicks(ticks + ticksPerDay, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerDay * count), timeSystem);
 		
 		case week:
-			return dateCalculator.dateFromTicks(ticks + ticksPerWeek, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerWeek * count), timeSystem);
 		
 		case month:
 			return dateCalculator.dateFromTicks(ticks + ticksPerMonth.get((int) date.getMonth() + 1), timeSystem);
 		
 		case year:
-			return dateCalculator.dateFromTicks(ticks + ticksPerYear, timeSystem);
+			return dateCalculator.dateFromTicks(ticks + (ticksPerYear * count), timeSystem);
 		
 		default:
 			return date;
@@ -162,10 +162,10 @@ public class DateUtils {
 	switch(unit){
 		
 		case tick:
-			return dateCalculator.dateFromTicks(ticks - 1, timeSystem);
+			return dateCalculator.dateFromTicks(ticks - (1 * count), timeSystem);
 		
 		case second:
-			return dateCalculator.dateFromTicks(ticks - ticksPerSecond,  timeSystem);
+			return dateCalculator.dateFromTicks(ticks - (ticksPerSecond * count),  timeSystem);
 		
 		case minute:
 			return dateCalculator.dateFromTicks(ticks - (ticksPerMinute * count), timeSystem);
@@ -177,13 +177,13 @@ public class DateUtils {
 			return dateCalculator.dateFromTicks(ticks - (ticksPerDay * count), timeSystem);
 		
 		case week:
-			return dateCalculator.dateFromTicks(ticks - ticksPerWeek, timeSystem);
+			return dateCalculator.dateFromTicks(ticks - (ticksPerWeek * count), timeSystem);
 		
 		case month:
 			return dateCalculator.dateFromTicks(ticks - ticksPerMonth.get((int) date.getMonth() - 1), timeSystem);
 		
 		case year:
-			return dateCalculator.dateFromTicks(ticks - ticksPerYear, timeSystem);
+			return dateCalculator.dateFromTicks(ticks - (ticksPerYear * count), timeSystem);
 		
 		default:
 			return date;
@@ -195,8 +195,9 @@ public class DateUtils {
 	 * Method to get the day of the week.
 	 */
 	public long getDayOfWeek(Date date) {
+		date = new Date(date);
+		date.setDay(date.getDay() + 1);
 		
-	    
 	    int cc = (int) (date.getYear()/100);
 	    int yy = (int) (date.getYear() - ((date.getYear()/100)*100));
 
@@ -205,7 +206,7 @@ public class DateUtils {
 	    int m = (int) (26*(date.getMonth()+1)/10);
 	    int d = (int) date.getDay();
 
-	    int dayOfWeek = (c+y+m+d)%7;
+	    int dayOfWeek = (int) ((c+y+m+d) % date.getTimeSystem().getDaysPerWeek());
 		
 		return dayOfWeek;
 	}

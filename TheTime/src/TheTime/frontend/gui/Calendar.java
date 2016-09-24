@@ -94,6 +94,7 @@ public class Calendar {
 		
 		
 		double daysPerMonth = timeSystem.getDaysPerMonth().get((int) date.getMonth());
+		double firstWeekDay = dateUtils.getDayOfWeek(dateUtils.down(DateEnum.day, (int) date.getDay(), date));
 		double daysPerWeek = timeSystem.getDaysPerWeek();
 		 /*
 		  * Checks if daysPerMonth is smaller 8, if not sets it to 8, because of the space of the inventory only 8 is permittet.
@@ -101,14 +102,14 @@ public class Calendar {
 		 if(daysPerWeek > 8){
 			 daysPerWeek = 8;
 		 }
-		double weeksPerMonth = Math.ceil((daysPerMonth / daysPerWeek));
+		double weeksPerMonth = Math.ceil(((daysPerMonth + firstWeekDay) / daysPerWeek));
 		
 		
 		/*
 		 * Declares variables for week slot and day slot. 
 		 */
 		int weekSlot = (int) daysPerWeek;
-		int daySlot = (int) dateUtils.getDayOfWeek(dateUtils.down(DateEnum.day, (int) date.getDay(), date));
+		int daySlot = (int) firstWeekDay;
 		int dayNullSlot = daySlot;
 		
 		int monthDay = 0;
@@ -120,6 +121,7 @@ public class Calendar {
 		HashMap<ItemProperties, Object> todayItemProperties = itemProperties.get(Items.TODAY);
 		HashMap<ItemProperties, Object> dayItemProperties = itemProperties.get(Items.DAY);
 		HashMap<ItemProperties, Object> weekItemProperties = itemProperties.get(Items.WEEK);
+		
 			/*
 			 * Goes threw each week of the month.
 			 */
@@ -134,6 +136,7 @@ public class Calendar {
 					monthDay++;
 					
 					if(isToday(date, creationDate)){
+						
 						/*
 						 * Creates a today item and sets it into the calendar.
 						 */
@@ -144,6 +147,7 @@ public class Calendar {
 								dayItems.add(todayItem);
 							}
 					}else{
+						
 						/*
 						 * Creates a day item and sets it into the calendar
 						 */
@@ -154,23 +158,16 @@ public class Calendar {
 							}
 					}
 					
-					/*
-					 *  Corretion for the daySlot of the first week.
-					 */
-					if(week == 0) {
-						if(daySlot >= daysPerWeek - 1) {
-							daySlot++;
-							break;
-						}
-					}
 					
-					/*
-					 * Checks for the end of the month.
-					 */
-					if(date.getDay() == daysPerMonth){
-						week = (int) ((weeksPerMonth - timeSystem.getWeekZero()) + 1);
-						day = (int) ((daysPerWeek- timeSystem.getDayZero()) + 1);
-					}
+						if(isEndOfWeek(date, daySlot)) {
+							daySlot++;
+								break;
+						}
+						
+						if(isEndOfMonth(date)) {
+							week = (int) ((weeksPerMonth - timeSystem.getWeekZero()) + 1);
+							day = (int) ((daysPerWeek- timeSystem.getDayZero()) + 1);
+						}
 
 				}
 				
@@ -194,6 +191,36 @@ public class Calendar {
 			
 			return inventory;
 		
+	}
+	
+	/*
+	 * Method to check if the given day is the end of the week.
+	 */
+	private boolean isEndOfWeek(Date date, int daySlot) {
+		TimeSystem timeSystem = date.getTimeSystem();
+			
+			if(date.getWeek() == 0){
+				if(daySlot >= timeSystem.getDaysPerWeek() - 1) {
+					return true;
+				}
+			}
+			
+		return false;
+	}
+	
+	/*
+	 * Method to check if the given day is the end of the month.
+	 */
+	private boolean isEndOfMonth(Date date){
+		TimeSystem timeSystem = date.getTimeSystem();
+		
+		long daysPerMonth = timeSystem.getDaysPerMonth().get((int) date.getMonth());
+		
+			if(date.getDay() == daysPerMonth - timeSystem.getDayZero()){
+				return true;
+			}
+		
+		return false;
 	}
 	
 	/*
@@ -250,6 +277,7 @@ public class Calendar {
 		int slots = 0;
 		
 		double daysPerMonth = timeSystem.getDaysPerMonth().get((int) date.getMonth());
+		double firstWeekDay = (double) dateUtils.getDayOfWeek(dateUtils.down(DateEnum.day, (int) date.getDay(), date));
 		double daysPerWeek = timeSystem.getDaysPerWeek();
 		 /*
 		  * Checks if daysPerMonth is smaller 8, if not sets it to 8, because of the space of the inventory only 8 is permittet.
@@ -261,7 +289,7 @@ public class Calendar {
 		/*
 		 * Calculates the weeks this month has.
 		 */
-		double weeksPerMonth = Math.ceil(daysPerMonth / daysPerWeek);
+		double weeksPerMonth = Math.ceil((daysPerMonth + firstWeekDay) / daysPerWeek);
 		
 			/*
 			 * Goes threw every week of the month and adds 9 slots for each week, to make the inventory big enough.
@@ -310,7 +338,6 @@ public class Calendar {
 		 * Replaces date text placeholder.
 		 */
 		date = dateUtils.removeZero(date);
-		
 		long dayOfWeek = dateUtils.getDayOfWeek(date);
 		
 		message = message

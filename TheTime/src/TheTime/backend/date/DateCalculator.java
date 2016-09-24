@@ -16,32 +16,26 @@ public class DateCalculator {
 		 * Variable declaration.
 		 */
 		long tick	 = 0;
-		long second  = 0;  	 long ticksPerSecond 			= timeSystem.getTicksPerSecond();
-		long minute	 = 0;  	 long secondsPerMinute		    = timeSystem.getSecondsPerMinute();
-		long hour  	 = 0;     long minutesPerHour 			= timeSystem.getMinutesPerHour();
-		long day  	 = 0;     long hoursPerDay 				= timeSystem.getHoursPerDay();
-		long week  	 = 0;     long daysPerWeek 				= timeSystem.getDaysPerWeek();
-		long month 	 = 0;     ArrayList<Long> daysPerMonth 	= timeSystem.getDaysPerMonth();
-		long year  	 = 0;     long monthsPerYear 			= timeSystem.getMonthsPerYear();
-		long era	 = 0;     ArrayList<Long> erasBegin 		= timeSystem.getErasBegin();
+		long second  = 0;
+		long minute	 = 0;
+		long hour  	 = 0; 
+		long day  	 = 0;   
+		long week  	 = 0;  
+		long month 	 = 0;    
+		long year  	 = 0;     
+		long era	 = 0;    ArrayList<Long> erasBegin 		= timeSystem.getErasBegin();
 					  		 ArrayList<Long> erasEnd   		= timeSystem.getErasEnd();
 			
 		/*
 		 * Calculates the ticks for each date parameter.
 		 */
-		ticksPerSecond = ticksPerSecond;
-		long ticksPerMinute = ticksPerSecond * secondsPerMinute;
-		long ticksPerHour 	= ticksPerMinute * minutesPerHour;
-		long ticksPerDay    = ticksPerHour   * hoursPerDay;
-		long ticksPerWeek   = ticksPerDay    * daysPerWeek;
-		ArrayList<Long> ticksPerMonth = new ArrayList<Long>();
-			for(long daysThisMonth : daysPerMonth){
-				ticksPerMonth.add(ticksPerDay * daysThisMonth);
-			}
-		long ticksPerYear  = 0;
-			for(long ticksThisMonth : ticksPerMonth){
-				ticksPerYear = ticksPerYear + ticksThisMonth;
-			}
+		long ticksPerSecond 			= (long) timeSystemUtils.getTicksPerUnit(DateEnum.second, timeSystem);
+		long ticksPerMinute 			= (long) timeSystemUtils.getTicksPerUnit(DateEnum.minute, timeSystem);
+		long ticksPerHour 				= (long) timeSystemUtils.getTicksPerUnit(DateEnum.hour, timeSystem);
+		long ticksPerDay    			= (long) timeSystemUtils.getTicksPerUnit(DateEnum.day, timeSystem);
+		long ticksPerWeek   			= (long) timeSystemUtils.getTicksPerUnit(DateEnum.week, timeSystem);
+		ArrayList<Long> ticksPerMonth 	= (ArrayList<Long>) timeSystemUtils.getTicksPerUnit(DateEnum.month, timeSystem);
+		long ticksPerYear  				= (long) timeSystemUtils.getTicksPerUnit(DateEnum.year, timeSystem);
 		
 		
 		/*
