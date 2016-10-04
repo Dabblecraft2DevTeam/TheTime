@@ -1,6 +1,6 @@
 name: TheTime
 main: TheTime.backend.main.main
-version: 15.5
+version: 5.6
 author: Joshua Wirtz
 website: https://www.spigotmc.org/resources/25146/
 

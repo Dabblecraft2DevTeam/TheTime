@@ -18,7 +18,7 @@ public class TheTimeCommand {
 		
 		if(args.length == 0){
 			
-			Plugin TheTime = Bukkit.getPluginManager().getPlugin("TheTime");
+			Plugin TheTime = main.instance;
 			String ver = TheTime.getDescription().getVersion();
 			String author = TheTime.getDescription().getAuthors().get(0);
 			String web = TheTime.getDescription().getWebsite();

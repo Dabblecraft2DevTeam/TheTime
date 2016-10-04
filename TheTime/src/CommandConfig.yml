@@ -12,5 +12,5 @@
 Errors:
   unknownCommand: '&4&oUnknown command! Try /calendar &r[TimeSystem]'
   notPlayer: 'Calendar can not be opend in the consol!'
-  noPermissions: '&4&oYou dont have permissions to do that!'
+  noPermissions: '&4&oYou do not have permissions to do that!'
   unkownTimeSystem: '&4&oUnknown TimeSystem!'

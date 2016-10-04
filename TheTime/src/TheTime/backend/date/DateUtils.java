@@ -196,7 +196,7 @@ public class DateUtils {
 	 */
 	public long getDayOfWeek(Date date) {
 		date = new Date(date);
-		date.setDay(date.getDay() + 1);
+		date.setDay(date.getDay() + date.getTimeSystem().getDayZero());
 		
 	    int cc = (int) (date.getYear()/100);
 	    int yy = (int) (date.getYear() - ((date.getYear()/100)*100));

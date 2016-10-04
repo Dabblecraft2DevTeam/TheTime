@@ -102,7 +102,8 @@ public class Calendar {
 		 if(daysPerWeek > 8){
 			 daysPerWeek = 8;
 		 }
-		double weeksPerMonth = Math.ceil(((daysPerMonth + firstWeekDay) / daysPerWeek));
+		 
+		double weeksThisMonth = Math.ceil(((daysPerMonth + firstWeekDay) / daysPerWeek));
 		
 		
 		/*
@@ -112,7 +113,8 @@ public class Calendar {
 		int daySlot = (int) firstWeekDay;
 		int dayNullSlot = daySlot;
 		
-		int monthDay = 0;
+		long dayOfMonth  = 0;
+		long weekOfMonth = 0;
 		
 		/*
 		 * Gets the properties of the items of the calendar.
@@ -125,15 +127,14 @@ public class Calendar {
 			/*
 			 * Goes threw each week of the month.
 			 */
-			for(int week = 0; week <= (weeksPerMonth - timeSystem.getWeekZero()); week++, weekSlot = weekSlot + 9){
-				date.setWeek(week);
+			for(long week = timeSystem.getWeekZero(); week <= weeksThisMonth; week++, weekOfMonth++, weekSlot = weekSlot + 9){
+				date.setWeek(weekOfMonth);
 				
 				/*
 				 * Goes threw each day of the week.
 				 */
-				for(int day = 0; day <= (daysPerWeek - timeSystem.getDayZero()); day++, daySlot++){
-					date.setDay(monthDay);
-					monthDay++;
+				for(long day = timeSystem.getDayZero(); day <= daysPerWeek; day++, dayOfMonth++, daySlot++){
+					date.setDay(dayOfMonth);
 					
 					if(isToday(date, creationDate)){
 						
@@ -161,12 +162,13 @@ public class Calendar {
 					
 						if(isEndOfWeek(date, daySlot)) {
 							daySlot++;
+							dayOfMonth++;
 								break;
 						}
 						
 						if(isEndOfMonth(date)) {
-							week = (int) ((weeksPerMonth - timeSystem.getWeekZero()) + 1);
-							day = (int) ((daysPerWeek- timeSystem.getDayZero()) + 1);
+							week = (int) (weeksThisMonth + 1);
+							day = (int) (daysPerWeek + 1);
 						}
 
 				}
@@ -198,9 +200,14 @@ public class Calendar {
 	 */
 	private boolean isEndOfWeek(Date date, int daySlot) {
 		TimeSystem timeSystem = date.getTimeSystem();
+		
+			long daysPerWeek = timeSystem.getDaysPerWeek();
+				if(daysPerWeek > 8) {
+					daysPerWeek = 8;
+				}
 			
 			if(date.getWeek() == 0){
-				if(daySlot >= timeSystem.getDaysPerWeek() - 1) {
+				if(daySlot == (timeSystem.getDaysPerWeek() - timeSystem.getDayZero())) {
 					return true;
 				}
 			}

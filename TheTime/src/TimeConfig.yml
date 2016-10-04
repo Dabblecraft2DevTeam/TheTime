@@ -69,9 +69,13 @@ Time-Systems:
     era:
       eras:
         '1':
-          name: default
-          startYear: 0
-          endYear: 1
+          name: 'Bronze Age'
+          startYear: -3000
+          endYear: -1050
+        '2':
+          name: 'Iron Age'
+          startYear: -1049
+          endYear: -500
   rome:
     second:
       ticksPerSecond: 20
